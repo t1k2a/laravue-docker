@@ -1,4 +1,4 @@
-FROM php:8.1-fpm-bullseye AS base
+FROM php:7.4-fpm-bullseye AS base
 
 WORKDIR /data
 
@@ -13,6 +13,11 @@ ENV TZ=UTC \
   COMPOSER_HOME=/composer
 
 COPY --from=composer:2.2 /usr/bin/composer /usr/bin/composer
+
+# install Node.js
+COPY --from=node:lts /usr/local/bin /usr/local/bin
+COPY --from=node:lts /usr/local/lib /usr/local/lib
+
 
 RUN apt-get update \
   && apt-get -y install --no-install-recommends \
